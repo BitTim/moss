@@ -1,5 +1,8 @@
 # MOSS - Minecraft Object Storage System
-![Status: not yet useable](https://img.shields.io/badge/status-not%20yet%20usable-red?style=for-the-badge) ![Made with Rust](https://img.shields.io/badge/Made_with-Rust-dea584?style=for-the-badge&logo=rust&logoColor=white) ![GitHub License](https://img.shields.io/github/license/BitTim/moss?style=for-the-badge)
+![Made with Rust](https://img.shields.io/badge/Made_with-Rust-dea584?style=for-the-badge&logo=rust&logoColor=white)
+[![Built with Nix Flake](https://img.shields.io/badge/Built_with-Nix_Flake-5277C3?style=for-the-badge&logo=nixos&logoColor=white)](https://nixos.org)
+![Status: not yet useable](https://img.shields.io/badge/status-not%20yet%20usable-red?style=for-the-badge)
+[![GitHub License](https://img.shields.io/github/license/BitTim/moss?style=for-the-badge)](LICENSE)
 
 MOSS Launcher is written in Rust and inspired by Nix and uses a centralized store of
 common files like mods in combination with symlinks from to each instance to
