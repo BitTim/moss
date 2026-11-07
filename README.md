@@ -42,7 +42,7 @@ This project uses [Nix](https://nixos.org) for a reproducible development enviro
 - [Nix](https://nixos.org/download) with flakes enabled
 - (Optional) [direnv](https://direnv.net)
 
-To enable flakes, add this to '~/.config/nix/nix.conf':
+To enable flakes, add this to `~/.config/nix/nix.conf`:
 
 ```
 experimental-features = nix-command flakes
@@ -56,10 +56,10 @@ cd moss
 nix develop
 ```
 
-The shell provides the Rust toolchain pinned in ['rust-toolchain.toml'](rust-toolchain.toml) as well
+The shell provides the Rust toolchain pinned in [`rust-toolchain.toml`](rust-toolchain.toml) as well
 as all necessary dependencies.
 
-With direnv, run 'direnv allow' once to automatically load the environment automatically.
+With direnv, run `direnv allow` once to automatically load the environment automatically.
 
 >[!TIP]
 > When using JetBrains RustRover it is recommended to also use the [direnv Everywhere](https://plugins.jetbrains.com/plugin/33482-direnv-everywhere) plugin
