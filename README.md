@@ -1,12 +1,15 @@
-# Moss Launcher - Mod Organizer & Symlink Store
+# Moss Launcher 
+
+> **M**ods, **O**rganized, **S**hared & **S**ymlinked
+
 [![Made with Rust](https://img.shields.io/badge/Made_with-Rust-dea584?style=for-the-badge&logo=rust&logoColor=white)](https://rust-lang.org)
 [![Built with Nix Flake](https://img.shields.io/badge/Built_with-Nix_Flake-5277C3?style=for-the-badge&logo=nixos&logoColor=white)](https://nixos.org)
 [![Status: not yet useable](https://img.shields.io/badge/status-not%20yet%20usable-red?style=for-the-badge)]()
 [![GitHub License](https://img.shields.io/github/license/BitTim/moss?style=for-the-badge)](LICENSE)
 
-Moss Launcher is written in Rust and inspired by Nix and uses a centralized local store of
-shared files like mods in combination with symlinks from to each instance to
-deduplicate files and as such optimize storage space.
+Moss is a Nix-inspired Minecraft launcher written in Rust. Mods, resource packs and other shared game files
+live once in a central local store and each instance is assembled from symlinks into that store.
+Nothing is duplicated between instances, which saves disk space and makes instances lightweight.
 
 > [!WARNING]
 > This project is under heavy development and is **not yet usable**.
