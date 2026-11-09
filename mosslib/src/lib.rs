@@ -1,3 +1,5 @@
-pub fn hello() {
-    println!("Hello from Moss!");
-}
+pub mod account;
+
+mod error;
+
+pub use error::{Error, Result};
