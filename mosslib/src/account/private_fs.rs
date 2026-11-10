@@ -1,4 +1,4 @@
-use crate::Result;
+use crate::{Error, Result};
 #[cfg(unix)]
 use std::os::unix::fs::{OpenOptionsExt, PermissionsExt};
 use std::{
@@ -11,7 +11,13 @@ use std::{
 pub(super) fn ensure_private_db_file(path: &Path) -> Result<()> {
     // Ensure parent folder exists
     if let Some(parent) = path.parent() {
-        DirBuilder::new().recursive(true).create(parent)?;
+        DirBuilder::new()
+            .recursive(true)
+            .create(parent)
+            .map_err(|src| Error::Io {
+                path: parent.into(),
+                source: src,
+            })?;
     }
 
     let mut options = OpenOptions::new();
@@ -21,15 +27,32 @@ pub(super) fn ensure_private_db_file(path: &Path) -> Result<()> {
     #[cfg(unix)]
     options.mode(0o600);
 
-    let file = options.open(path)?;
+    let file = options.open(path).map_err(|src| Error::Io {
+        path: path.into(),
+        source: src,
+    })?;
 
     // The above permission mode only applies to newly created files,
     // so here an existing one is checked and tightened if needed
     #[cfg(unix)]
-    if file.metadata()?.permissions().mode() & 0o077 != 0 {
+    if file
+        .metadata()
+        .map_err(|src| Error::Io {
+            path: path.into(),
+            source: src,
+        })?
+        .permissions()
+        .mode()
+        & 0o077
+        != 0
+    {
         use std::{fs::Permissions, os::unix::fs::PermissionsExt};
 
-        file.set_permissions(Permissions::from_mode(0o600))?;
+        file.set_permissions(Permissions::from_mode(0o600))
+            .map_err(|src| Error::Io {
+                path: path.into(),
+                source: src,
+            })?;
     }
 
     Ok(())

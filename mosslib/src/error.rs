@@ -1,28 +1,21 @@
-use derive_more::From;
+use std::path::PathBuf;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
-#[derive(Debug, From)]
+#[derive(Debug, thiserror::Error)]
 pub enum Error {
     // Std
-    #[from]
-    Io(std::io::Error),
+    #[error("failed to access {path}")]
+    Io {
+        path: PathBuf,
+        #[source]
+        source: std::io::Error,
+    },
 
     // PortableMC
-    #[from]
-    EnvVar(std::env::VarError),
+    #[error("Microsoft authentication failed")]
+    MsaAuth(#[from] portablemc::msa::AuthError),
 
-    #[from]
-    MsaAuth(portablemc::msa::AuthError),
-
-    #[from]
-    MsaDatabase(portablemc::msa::DatabaseError),
+    #[error("account database error")]
+    MsaDatabase(#[from] portablemc::msa::DatabaseError),
 }
-
-impl std::fmt::Display for Error {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::result::Result<(), std::fmt::Error> {
-        write!(f, "{self:?}")
-    }
-}
-
-impl std::error::Error for Error {}
