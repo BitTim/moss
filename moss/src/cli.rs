@@ -1,5 +1,7 @@
 use clap::{Parser, Subcommand};
 
+use crate::commands::account::AccountCommand;
+
 #[derive(Debug, Parser)]
 #[command(
     author,
@@ -7,7 +9,7 @@ use clap::{Parser, Subcommand};
     about,
     long_about = "A smart and storage optimizing Minecraft launcher"
 )]
-pub(crate) struct Cli {
+pub(crate) struct Args {
     #[command(subcommand)]
     pub cmd: Commands,
 }
@@ -15,5 +17,6 @@ pub(crate) struct Cli {
 #[derive(Debug, Subcommand)]
 pub(crate) enum Commands {
     /// Manage accounts
-    Account,
+    #[command(subcommand)]
+    Account(AccountCommand),
 }

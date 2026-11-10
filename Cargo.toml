@@ -1,3 +1,7 @@
 [workspace]
 resolver = "3"
 members = ["moss","mosslib"]
+
+[workspace.package]
+authors = ["Tim Anhalt (undef.bloom) <tim@anhalt.me>"]
+version = "0.1.0"

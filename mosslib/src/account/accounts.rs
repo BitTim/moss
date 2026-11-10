@@ -41,13 +41,16 @@ impl Accounts {
         })
     }
 
-    pub fn add(&self, on_prompt: impl FnOnce(&DeviceCodePrompt)) -> Result<()> {
+    pub fn add(&self, on_prompt: impl FnOnce(&DeviceCodePrompt)) -> Result<String> {
         let auth = Auth::new(&self.msa_client_id);
         let flow = auth.request_device_code()?;
 
         on_prompt(&DeviceCodePrompt::from_flow(&flow));
 
         let account = flow.wait()?;
-        Ok(self.db.store(account)?)
+        let username = account.username().to_owned();
+
+        self.db.store(account)?;
+        Ok(username)
     }
 }

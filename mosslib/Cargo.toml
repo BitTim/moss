@@ -1,7 +1,9 @@
 [package]
 name = "mosslib"
-version = "0.1.0"
 edition = "2024"
+
+version.workspace = true
+authors.workspace = true
 
 [dependencies]
 portablemc = "5.0.6"
