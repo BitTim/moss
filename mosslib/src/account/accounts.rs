@@ -15,6 +15,13 @@ pub struct DeviceCodePrompt {
     pub message: String,
 }
 
+#[derive(Debug)]
+pub struct Account {
+    pub uuid: String,
+    pub username: String,
+    pub xuid: String,
+}
+
 impl DeviceCodePrompt {
     fn from_flow(flow: &DeviceCodeFlow) -> Self {
         Self {
@@ -52,5 +59,13 @@ impl Accounts {
 
         self.db.store(account)?;
         Ok(username)
+    }
+
+    pub fn list(&self) -> Result<impl Iterator<Item = Account>> {
+        Ok(self.db.load_iter()?.map(|acc| Account {
+            uuid: acc.uuid().into(),
+            username: acc.username().into(),
+            xuid: acc.xuid().into(),
+        }))
     }
 }

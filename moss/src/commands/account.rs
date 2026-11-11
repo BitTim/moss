@@ -17,6 +17,7 @@ pub(crate) enum AccountCommand {
 pub(crate) fn run(cmd: AccountCommand, accounts: Accounts) -> anyhow::Result<()> {
     match cmd {
         AccountCommand::Add => add(accounts),
+        AccountCommand::List => list(accounts),
         _ => Ok(()),
     }
 }
@@ -24,5 +25,20 @@ pub(crate) fn run(cmd: AccountCommand, accounts: Accounts) -> anyhow::Result<()>
 fn add(accounts: Accounts) -> anyhow::Result<()> {
     let username = accounts.add(|prompt| println!("{prompt:#?}"))?;
     println!("Successfully added {}", username);
+    Ok(())
+}
+
+fn list(accounts: Accounts) -> anyhow::Result<()> {
+    let accounts_iterator = accounts.list()?;
+    let mut table_builder = tabled::builder::Builder::new();
+
+    for acc in accounts_iterator {
+        table_builder.push_record([acc.username, acc.uuid, acc.xuid]);
+    }
+
+    let mut table = table_builder.build();
+    table.with(tabled::settings::Style::blank());
+
+    println!("{}", table);
     Ok(())
 }
