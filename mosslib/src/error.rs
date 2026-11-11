@@ -1,9 +1,17 @@
 use std::path::PathBuf;
 
+use uuid::Uuid;
+
 pub type Result<T> = std::result::Result<T, Error>;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
+    #[error("no account found with username {username}")]
+    NoAccountWithUsernameFound { username: String },
+
+    #[error("no account found with uuid {uuid}")]
+    NoAccountWithUuidFound { uuid: Uuid },
+
     // Std
     #[error("failed to access {path}")]
     Io {

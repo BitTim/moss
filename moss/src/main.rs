@@ -1,6 +1,8 @@
-use std::path::PathBuf;
+use std::{path::PathBuf, str::FromStr};
 
+use anyhow::Context;
 use clap::Parser;
+use uuid::Uuid;
 
 use crate::{
     cli::{Args, Commands},
@@ -18,7 +20,8 @@ pub(crate) use config::Config;
 
 fn init_accounts(accounts_file: PathBuf) -> anyhow::Result<Accounts> {
     Ok(Accounts::new(AccountsConfig {
-        msa_client_id: constants::MSA_CLIENT_ID.into(),
+        msa_client_id: Uuid::from_str(constants::MSA_CLIENT_ID)
+            .context("Invalid Microsoft Authentication Client ID")?,
         auth_db_path: accounts_file,
     })?)
 }

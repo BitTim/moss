@@ -13,3 +13,4 @@ mosslib = { path = "../mosslib" }
 serde = "1.0.229"
 tabled = "0.22.0"
 toml = "1.2.1"
+uuid = "1.29.2"
