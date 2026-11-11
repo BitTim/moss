@@ -1,3 +1,4 @@
+use anyhow::Context;
 use clap::Subcommand;
 use mosslib::account::Accounts;
 
@@ -8,11 +9,6 @@ pub(crate) enum AccountCommand {
     Add,
     /// List authenticated accounts
     List,
-    /// Marks an account as the default. Only one account can be set as default
-    Default {
-        /// Either a valid UUID or a username
-        target: String,
-    },
     /// Refreshes the authentication token and username of a user. This is also done automatically
     /// when launching an instance.
     Refresh {
@@ -30,39 +26,44 @@ pub(crate) fn run(cmd: AccountCommand, accounts: Accounts) -> anyhow::Result<()>
     match cmd {
         AccountCommand::Add => add(accounts),
         AccountCommand::List => list(accounts),
-        AccountCommand::Default { target } => default(target),
         AccountCommand::Refresh { target } => refresh(accounts, target),
         AccountCommand::Remove { target } => remove(accounts, target),
     }
 }
 
 fn add(accounts: Accounts) -> anyhow::Result<()> {
-    let username = accounts.add(|prompt| println!("{prompt:#?}"))?;
+    let username = accounts
+        .add(|prompt| println!("{}", prompt.message))
+        .context("could not add account")?;
     println!("Successfully added {}", username);
     Ok(())
 }
 
 fn list(accounts: Accounts) -> anyhow::Result<()> {
-    let accounts_iterator = accounts.list()?;
+    let accounts_iterator = accounts.list().context("could not list accounts")?;
     let mut table_builder = tabled::builder::Builder::new();
+    let mut counter: i32 = 0;
 
     for acc in accounts_iterator {
         table_builder.push_record([acc.username, acc.uuid.to_string(), acc.xuid]);
+        counter += 1;
     }
 
-    let mut table = table_builder.build();
-    table.with(tabled::settings::Style::blank());
+    if counter > 0 {
+        let mut table = table_builder.build();
+        table.with(tabled::settings::Style::blank());
 
-    println!("{}", table);
-    Ok(())
-}
-
-fn default(target: String) -> anyhow::Result<()> {
+        println!("{}", table);
+    } else {
+        println!("No accounts present yet");
+    }
     Ok(())
 }
 
 fn refresh(accounts: Accounts, target: String) -> anyhow::Result<()> {
-    let new_account = accounts.refresh(&target)?;
+    let new_account = accounts
+        .refresh(&target)
+        .context("could not refresh account")?;
 
     println!("Successfully refreshed account {}", target);
 
@@ -76,5 +77,10 @@ fn refresh(accounts: Accounts, target: String) -> anyhow::Result<()> {
 }
 
 fn remove(accounts: Accounts, target: String) -> anyhow::Result<()> {
+    accounts
+        .remove(&target)
+        .context("could not remove account")?;
+
+    println!("Removed account {}", target);
     Ok(())
 }

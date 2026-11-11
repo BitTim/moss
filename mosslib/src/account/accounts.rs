@@ -99,4 +99,14 @@ impl Accounts {
             None
         })
     }
+
+    pub fn remove(&self, target: &str) -> Result<()> {
+        if let Ok(uuid) = Uuid::parse_str(target) {
+            self.db.remove_from_uuid(uuid)?;
+        } else {
+            self.db.remove_from_username(target)?;
+        }
+
+        Ok(())
+    }
 }
