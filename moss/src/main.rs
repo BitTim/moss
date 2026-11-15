@@ -37,9 +37,8 @@ fn main() -> anyhow::Result<()> {
     match cli.cmd {
         Commands::Account(cmd) => {
             let accounts = init_accounts(paths.accounts_file())?;
-            commands::account::run(cmd, accounts)?;
+            commands::account::run(cmd, accounts)
         }
+        Commands::Game(cmd) => commands::game::run(cmd),
     }
-
-    Ok(())
 }

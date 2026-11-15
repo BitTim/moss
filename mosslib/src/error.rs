@@ -26,4 +26,7 @@ pub enum Error {
 
     #[error("account database error")]
     MsaDatabase(#[from] portablemc::msa::DatabaseError),
+
+    #[error("error with mojang module")]
+    Mojang(#[from] portablemc::moj::Error),
 }

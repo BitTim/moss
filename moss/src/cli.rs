@@ -1,6 +1,7 @@
 use clap::{Parser, Subcommand};
 
 use crate::commands::account::AccountCommand;
+use crate::commands::game::GameCommand;
 
 #[derive(Debug, Parser)]
 #[command(
@@ -19,4 +20,7 @@ pub(crate) enum Commands {
     /// Manage accounts
     #[command(subcommand)]
     Account(AccountCommand),
+    /// Manage core game files
+    #[command(subcommand)]
+    Game(GameCommand),
 }
