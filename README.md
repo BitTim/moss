@@ -5,7 +5,7 @@
 [![Made with Rust](https://img.shields.io/badge/Made_with-Rust-dea584?style=for-the-badge&logo=rust&logoColor=white)](https://rust-lang.org)
 [![Built with Nix Flake](https://img.shields.io/badge/Built_with-Nix_Flake-5277C3?style=for-the-badge&logo=nixos&logoColor=white)](https://nixos.org)
 [![Status: not yet useable](https://img.shields.io/badge/status-not%20yet%20usable-red?style=for-the-badge)]()
-[![GitHub License](https://img.shields.io/github/license/BitTim/moss?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/badge/License-GPL—3.0-orange?style=for-the-badge](LICENSE)
 
 Moss is a Nix-inspired Minecraft launcher written in Rust. Mods, resource packs and other shared game files
 live once in a central local store and each instance is assembled from symlinks into that store.
@@ -57,7 +57,7 @@ experimental-features = nix-command flakes
 ### Entering the dev shell
 
 ```sh
-git clone https://github.com/BitTim/moss.git
+git clone https://bee.undefbloom.com/undefbloom/moss
 cd moss
 nix develop
 ```
